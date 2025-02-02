@@ -14,7 +14,36 @@ public class Queries {
     """
         SELECT * 
             FROM rsvp 
-            WHERE name like ?; 
+            WHERE name LIKE ?; 
+    """;
+
+    // task 2C 
+    public static final String SQL_INSERT_RSVP = 
+    """
+        INSERT INTO rsvp (name, email, phone, confirm_date, comments)
+            VALUES (?, ?, ?, ?, ?);
+    """;
+
+    // helper method 
+    // return id if email exists in db
+    public static final String SQL_GET_RSVP_ID = 
+    """
+        SELECT rsvp_id
+            FROM rsvp 
+            WHERE email = ?;
+    """;
+
+    // task 2D 
+    public static final String SQL_UPDATE_RSVP = 
+    """
+        UPDATE rsvp 
+        SET 
+            name = ?, 
+            phone = ?,
+            confirm_date = ?,
+            comments = ?
+        WHERE 
+            email = ?;
     """;
 
 }

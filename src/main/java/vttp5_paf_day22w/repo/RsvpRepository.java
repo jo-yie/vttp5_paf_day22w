@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class RsvpRepository {
     private JdbcTemplate template; 
 
     // task 2A
-    public List<Rsvp> getAlLRsvps() { 
+    public List<Rsvp> getAllRsvps() { 
 
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_ALL_RSVP);
         List<Rsvp> results = new LinkedList<>();
@@ -51,6 +52,59 @@ public class RsvpRepository {
         }
 
         return Optional.ofNullable(results);
+
+    }
+
+    // task 2C 
+    public int insertRsvp(Rsvp rsvp) { 
+
+        int idFromDb = getId(rsvp.getEmail());
+
+        // email is not in db 
+        if (idFromDb == 0) { 
+            return template.update(Queries.SQL_INSERT_RSVP,
+                rsvp.getName(),
+                rsvp.getEmail(),
+                rsvp.getPhone(),
+                rsvp.getConfirmDate(), 
+                rsvp.getComments());
+
+        }
+
+        // email is in db 
+        // update existing entry
+        else { 
+            return updateRsvp(rsvp);
+
+        }
+
+    }
+
+    // helper method 
+    // return 0 if email not in db
+    public int getId(String email) { 
+
+        try { 
+            int idFromDb = template.queryForObject(Queries.SQL_GET_RSVP_ID, 
+            Integer.class, email);
+            return idFromDb;
+
+        } catch (EmptyResultDataAccessException e) {
+            return 0;
+
+        }
+
+    }
+
+    // task 2D 
+    public int updateRsvp(Rsvp rsvp) {
+
+        return template.update(Queries.SQL_UPDATE_RSVP,
+            rsvp.getName(), 
+            rsvp.getPhone(), 
+            rsvp.getConfirmDate(), 
+            rsvp.getComments(), 
+            rsvp.getEmail());
 
     }
     
