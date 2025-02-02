@@ -87,5 +87,12 @@ public class RsvpService {
         return r; 
 
     }
+
+    // task 2D 
+    public int countAllRsvps() { 
+
+        return rsvpRepository.countAllRsvps();
+
+    }
     
 }

@@ -107,5 +107,13 @@ public class RsvpRepository {
             rsvp.getEmail());
 
     }
+
+    // task 2E 
+    public int countAllRsvps() { 
+
+        return template.queryForObject(Queries.SQL_COUNT_RSVP,
+            Integer.class);
+
+    }
     
 }

@@ -119,4 +119,15 @@ public class RsvpController {
         
     }
 
+    // task 2E
+    // get number of rsvps 
+    // GET /api/rsvps/count 
+    @GetMapping("/api/rsvps/count")
+    public ResponseEntity<Object> countAllRsvps() { 
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(Map.of("Count", rsvpService.countAllRsvps())); 
+
+    }
+
 }

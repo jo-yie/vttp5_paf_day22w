@@ -46,4 +46,11 @@ public class Queries {
             email = ?;
     """;
 
+    // task 2E 
+    public static final String SQL_COUNT_RSVP = 
+    """
+        SELECT COUNT(*) 
+            FROM rsvp; 
+    """;
+
 }
